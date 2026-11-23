@@ -1,0 +1,984 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Buku Kelas</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: a school exercise book. Blue cover sidebar, a white notebook page with a red margin line,
+   the teacher's red pen (Caveat) for dates, topics and grades. Everything else stays quiet and ruled. */
+:root{
+  --paper:#F5F7FC;--surface:#FFFFFF;--ink:#16213A;--muted:#5A6684;
+  --rule:#D6DEF0;--rule-strong:#B3C0E2;
+  --cover:#1F3B87;--cover-ink:#FFFFFF;--cover-mute:#BAC7EC;
+  --accent:#2447A9;--accent-fg:#FFFFFF;--accent-soft:#E3EAFB;
+  --red:#D13B33;
+  --ok:#1E7A46;--ok-bg:#DDF1E4;--info:#245FA8;--info-bg:#DDE9F7;
+  --warn:#9A6400;--warn-bg:#FBEBC8;--bad:#B3261E;--bad-bg:#F9DEDB;
+  --font:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --hand:'Caveat','Bradley Hand','Segoe Print',cursive;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0E1424;--surface:#151D33;--ink:#E8EDFA;--muted:#9AA7C7;
+    --rule:#27325A;--rule-strong:#364780;
+    --cover:#18285A;--cover-ink:#F2F5FF;--cover-mute:#9FB0DC;
+    --accent:#8FAAF2;--accent-fg:#0B1330;--accent-soft:#1D2B55;
+    --red:#F2837B;
+    --ok:#6FD398;--ok-bg:#173626;--info:#8DB8F0;--info-bg:#172B45;
+    --warn:#F0C25A;--warn-bg:#3A2D0E;--bad:#F29A94;--bad-bg:#3F1B18;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0E1424;--surface:#151D33;--ink:#E8EDFA;--muted:#9AA7C7;
+  --rule:#27325A;--rule-strong:#364780;
+  --cover:#18285A;--cover-ink:#F2F5FF;--cover-mute:#9FB0DC;
+  --accent:#8FAAF2;--accent-fg:#0B1330;--accent-soft:#1D2B55;
+  --red:#F2837B;
+  --ok:#6FD398;--ok-bg:#173626;--info:#8DB8F0;--info-bg:#172B45;
+  --warn:#F0C25A;--warn-bg:#3A2D0E;--bad:#F29A94;--bad-bg:#3F1B18;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--paper);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.55;
+  padding-block:16px 40px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+}
+.container{max-width:1180px;margin:0 auto}
+h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.02em;line-height:1.15;text-wrap:balance}
+h2{font-size:1.2rem}
+h3{font-size:1.02rem}
+p{margin:0}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.muted{color:var(--muted)}
+.small{font-size:.86rem}
+svg.i{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+:where(input[type=text],input[type=password],input[type=date],input[type=number]){
+  background:var(--surface);border:1px solid var(--rule-strong);border-radius:8px;padding:8px 10px;min-height:42px;width:100%;
+}
+:where(input,select):focus{border-color:var(--accent)}
+:where(select){
+  font-weight:600;background:var(--surface);border:1px solid var(--rule-strong);border-radius:8px;padding:8px 10px;min-height:42px;max-width:100%;
+}
+select option{background:var(--surface);color:var(--ink)}
+:where(textarea){background:var(--surface);border:1px solid var(--rule-strong);border-radius:8px;padding:8px 10px;width:100%;min-height:110px;resize:vertical;font:inherit}
+:where(textarea):focus{border-color:var(--accent)}
+input[type=file]{width:100%;font-size:.9rem;max-width:100%}
+input[type=file]::file-selector-button{font:inherit;font-weight:600;border:1px solid var(--accent);background:var(--accent);color:var(--accent-fg);border-radius:8px;padding:8px 14px;margin-right:12px;cursor:pointer;min-height:42px}
+.preview{border:1px solid var(--rule-strong);border-radius:10px;background:var(--surface);padding:14px;display:flex;flex-direction:column;gap:10px}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field label{font-size:.82rem;font-weight:600;color:var(--muted)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.row .field{flex:1 1 170px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--rule-strong);background:var(--surface);border-radius:8px;padding:8px 14px;min-height:42px;font-weight:600}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.danger{color:var(--bad);border-color:var(--bad)}
+.btn.sm{min-height:36px;padding:4px 12px;font-size:.88rem}
+
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.logo{width:36px;height:36px;border-radius:9px;background:var(--accent);color:var(--accent-fg);display:grid;place-items:center;flex:none}
+.brand b{font-weight:800;font-size:1.1rem;letter-spacing:-.02em;display:block;line-height:1.1}
+.brand span{font-size:.8rem;color:var(--muted)}
+.lang{display:inline-flex;border:1px solid var(--rule-strong);border-radius:8px;overflow:hidden;background:var(--surface)}
+.lang button{border:0;background:transparent;padding:4px 10px;font-size:.8rem;font-weight:700;color:var(--muted);min-height:34px}
+.lang button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg)}
+
+/* ---------- landing ---------- */
+.topnav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:12px}
+.hero{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"copy" "login" "sheet";gap:24px;padding-block:20px 8px}
+@media (min-width:900px){
+  .hero{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);grid-template-areas:"copy login" "sheet login";gap:28px 64px;padding-block:36px 8px}
+}
+.copy{grid-area:copy;display:flex;flex-direction:column;gap:16px}
+.copy h1{font-size:clamp(2.1rem,5vw,3.5rem);letter-spacing:-.035em;line-height:1.05;max-width:20ch}
+.copy p{font-size:1.1rem;color:var(--muted);max-width:52ch}
+.logincard{grid-area:login;align-self:start;background:var(--surface);border:1px solid var(--rule);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:16px}
+.logincard h2{font-size:1.45rem}
+.logincard form{display:flex;flex-direction:column;gap:12px}
+.err{color:var(--bad);font-size:.9rem}
+.demo{background:var(--accent-soft);border-radius:8px;padding:10px 12px;font-size:.88rem}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:700}
+.sheetwrap{grid-area:sheet;margin:0;display:flex;flex-direction:column;gap:8px;max-width:520px}
+.sheet{
+  position:relative;background-color:var(--surface);border:1px solid var(--rule);border-radius:10px;
+  padding:18px 20px 18px 62px;
+  background-image:linear-gradient(to bottom,transparent 33px,var(--rule) 33px);
+  background-size:100% 34px;background-position:0 18px;
+}
+.sheet::before{content:"";position:absolute;top:0;bottom:0;left:44px;width:2px;background:var(--red);opacity:.5}
+.sheet .l{height:34px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sheet .l.d{font-family:var(--hand);font-weight:700;font-size:1.7rem;color:var(--red)}
+.sheet .l.t{font-family:var(--hand);font-weight:600;font-size:1.4rem}
+.sheetwrap figcaption{font-size:.82rem;color:var(--muted)}
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:28px 36px;margin-top:48px;padding-top:32px;border-top:2px solid var(--rule)}
+.feat{display:flex;flex-direction:column;gap:8px}
+.feat .i{width:26px;height:26px;color:var(--accent)}
+.feat p{color:var(--muted);max-width:40ch}
+.sitefoot{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);font-size:.85rem;color:var(--muted)}
+
+/* ---------- app shell ---------- */
+.shell{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;align-items:start}
+@media (min-width:900px){.shell{grid-template-columns:250px minmax(0,1fr);gap:20px}}
+.side{
+  background:var(--cover);color:var(--cover-ink);border-radius:14px;padding:16px;
+  display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"brand foot" "pick pick" "nav nav";gap:12px;
+}
+@media (min-width:900px){
+  .side{display:flex;flex-direction:column;gap:20px;position:sticky;top:16px;min-height:calc(100vh - 32px);padding:20px 16px}
+}
+.side .brand{grid-area:brand}
+.side .brand b{color:var(--cover-ink)}
+.side .brand span{color:var(--cover-mute)}
+.side .logo{background:rgba(255,255,255,.16);color:#fff}
+.side-foot{grid-area:foot;display:flex;align-items:center;gap:8px}
+.side-foot .who{display:none;font-size:.85rem;color:var(--cover-mute);overflow-wrap:anywhere}
+@media (min-width:900px){
+  .side-foot{order:9;margin-top:auto;flex-direction:column;align-items:stretch}
+  .side-foot .who{display:block}
+}
+.side .lang{background:transparent;border-color:rgba(255,255,255,.35)}
+.side .lang button{color:var(--cover-mute)}
+.side .lang button[aria-pressed="true"]{background:#fff;color:#1F3B87}
+.side .btn{background:transparent;border-color:rgba(255,255,255,.35);color:#fff}
+.side .btn:hover{border-color:#fff}
+.pick{grid-area:pick;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pick label{flex-basis:100%;font-size:.8rem;font-weight:600;color:var(--cover-mute)}
+.pick select{flex:1 1 140px;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3);color:#fff;font-weight:700}
+.sidenav{grid-area:nav;display:flex;gap:4px;overflow-x:auto}
+@media (min-width:900px){.sidenav{flex-direction:column;overflow:visible}}
+.navbtn{display:flex;align-items:center;gap:10px;border:0;background:transparent;color:var(--cover-mute);padding:10px 12px;border-radius:8px;font-weight:600;white-space:nowrap;min-height:44px;text-align:left}
+.navbtn:hover{background:rgba(255,255,255,.08);color:#fff}
+.navbtn[aria-current="page"]{background:rgba(255,255,255,.17);color:#fff}
+
+.page{
+  background:var(--surface);border:1px solid var(--rule);border-radius:14px;padding:20px 16px 28px;
+  display:flex;flex-direction:column;gap:22px;min-width:0;position:relative;
+}
+@media (min-width:900px){
+  .page{padding:30px 36px 36px 80px;min-height:calc(100vh - 32px)}
+  .page::before{content:"";position:absolute;top:0;bottom:0;left:54px;width:2px;background:var(--red);opacity:.5}
+}
+.ph{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;padding-bottom:16px;border-bottom:2px solid var(--rule)}
+.ph h1{font-size:clamp(1.6rem,3.4vw,2.2rem);letter-spacing:-.03em}
+.sec{display:flex;flex-direction:column;gap:16px;min-width:0}
+.block{background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.note{background:var(--accent-soft);border-radius:8px;padding:10px 12px;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between}
+.empty{padding:28px 12px;text-align:center;color:var(--muted)}
+.saved{font-size:.82rem;color:var(--muted)}
+
+/* attendance */
+.penrow{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px 16px}
+.pen-date{font-family:var(--hand);font-weight:700;font-size:clamp(1.8rem,4.2vw,2.4rem);color:var(--red);line-height:1.1}
+.ctl{flex:0 1 auto}
+.ctl .field{flex:0 1 190px}
+.topic{display:flex;flex-direction:column;gap:2px}
+.topic label{font-size:.82rem;font-weight:600;color:var(--muted)}
+.topic input{font-family:var(--hand);font-size:1.55rem;font-weight:600;border:0;border-bottom:2px solid var(--rule-strong);border-radius:0;background:transparent;padding:2px 2px 4px;min-height:46px}
+.topic input:focus{border-bottom-color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border-radius:999px;padding:3px 11px;font-size:.82rem;font-weight:700;display:inline-flex;gap:6px;align-items:center}
+.chip.h,.pill.ok{background:var(--ok-bg);color:var(--ok)}
+.chip.i{background:var(--info-bg);color:var(--info)}
+.chip.s,.pill.warn{background:var(--warn-bg);color:var(--warn)}
+.chip.a,.pill.bad{background:var(--bad-bg);color:var(--bad)}
+.chip.n{background:var(--paper);color:var(--muted);border:1px solid var(--rule)}
+.pill{border-radius:999px;padding:2px 10px;font-size:.78rem;font-weight:700;white-space:nowrap}
+.pill.none{background:var(--paper);color:var(--muted)}
+.list{display:flex;flex-direction:column}
+.stu{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;padding:10px 0;border-bottom:1px solid var(--rule)}
+.stu:last-child{border-bottom:0}
+.stu .nm{min-width:0;flex:1 1 180px}
+.stu .nm b{font-weight:700;overflow-wrap:anywhere}
+.seg{display:inline-flex;gap:6px}
+.seg button{min-width:64px;min-height:42px;border:1px solid var(--rule-strong);background:var(--surface);border-radius:8px;font-weight:700;font-size:.85rem;padding:0 10px}
+.seg button:hover{border-color:var(--accent)}
+.seg button.on.h{background:var(--ok-bg);color:var(--ok);border-color:var(--ok)}
+.seg button.on.i{background:var(--info-bg);color:var(--info);border-color:var(--info)}
+.seg button.on.s{background:var(--warn-bg);color:var(--warn);border-color:var(--warn)}
+.seg button.on.a{background:var(--bad-bg);color:var(--bad);border-color:var(--bad)}
+.hand{font-family:var(--hand);font-weight:600;font-size:1.35rem;line-height:1.2}
+
+/* tables */
+.scroll{overflow-x:auto;border-top:2px solid var(--rule-strong);border-bottom:1px solid var(--rule)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-variant-numeric:tabular-nums}
+th,td{padding:9px 10px;text-align:left;border-top:1px solid var(--rule)}
+thead th{border-top:0;border-bottom:2px solid var(--rule-strong);font-size:.82rem;font-weight:700;color:var(--muted);white-space:nowrap}
+th small{display:block;font-weight:500}
+tbody tr:first-child td{border-top:0}
+td.num,th.num{text-align:center}
+td input[type=number]{width:74px;text-align:center;padding:6px;min-height:38px}
+.mark{font-family:var(--hand);font-weight:700;font-size:1.6rem;color:var(--red);line-height:1;margin-right:6px}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 0;margin:0}
+@media (min-width:700px){.stats{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.stats div{padding:2px 16px;border-left:2px solid var(--rule-strong)}
+.stats dt{font-size:.82rem;color:var(--muted);font-weight:600}
+.stats dd{margin:0;font-size:1.9rem;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1.2}
+.pc{display:flex;align-items:center;gap:10px}
+.bar{height:6px;width:80px;background:var(--rule);border-radius:3px;overflow:hidden;flex:none}
+.bar i{display:block;height:100%;background:var(--ok)}
+.bar i.warn{background:var(--warn)}
+.bar i.bad{background:var(--bad)}
+.logitem{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;padding:12px 0;border-bottom:1px solid var(--rule)}
+.logitem:last-child{border-bottom:0}
+.logitem .nm{flex:1 1 220px;min-width:0}
+.incl{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+
+.toast{
+  position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));
+  background:var(--ink);color:var(--surface);padding:10px 16px;border-radius:10px;font-weight:600;font-size:.9rem;z-index:20;
+  max-width:calc(100vw - 32px);text-align:center;
+}
+@media (prefers-reduced-motion:no-preference){.btn,.seg button,.navbtn{transition:background .12s,border-color .12s,color .12s}}
+</style>
+
+<div id="app"></div>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+(function(){
+'use strict';
+
+/* ---------- text ---------- */
+var T={
+ id:{
+  app:'Buku Kelas',tagline:'Absensi dan nilai murid',
+  loginTitle:'Masuk',registerTitle:'Buat akun guru',
+  username:'Nama pengguna',password:'Kata sandi',login:'Masuk',register:'Daftar',
+  toRegister:'Belum punya akun? Daftar',toLogin:'Sudah punya akun? Masuk',
+  demo:'Akun contoh',demoNote:'Data disimpan di browser ini saja.',
+  errCred:'Nama pengguna atau kata sandi salah.',errEmpty:'Isi nama pengguna dan kata sandi.',
+  errExists:'Nama pengguna sudah dipakai.',errShort:'Kata sandi minimal 4 karakter.',
+  heroTitle:'Absensi dan nilai satu kelas, rapi dalam satu buku.',
+  heroText:'Catat kehadiran tiap pertemuan, tulis materi yang diajarkan, masukkan nilai, lalu unduh semuanya sebagai file Excel.',
+  sheetCap:'Contoh halaman absensi',sampleTopic:'Materi: Pecahan senilai',
+  f1t:'Absensi tiap pertemuan',f1x:'Tandai hadir, izin, sakit, atau alfa dengan satu ketukan. Setiap pertemuan punya tanggal dan materi sendiri.',
+  f2t:'Nilai dan rekap',f2x:'Masukkan nilai tugas, ulangan harian, UTS, dan UAS. Nilai akhir dan ketuntasan dihitung otomatis.',
+  f3t:'Banyak kelas, satu akun',f3x:'Pindah antar kelas dari menu samping, lalu unduh hasilnya sebagai file Excel.',
+  footer:'Buku Kelas. Data tersimpan di browser ini.',
+  logout:'Keluar',class:'Kelas',
+  tAbs:'Absensi',tLog:'Jurnal',tGrades:'Nilai',tRecap:'Rekap',tStudents:'Murid',tExport:'Ekspor',
+  date:'Tanggal',allPresent:'Tandai semua hadir',clearDay:'Kosongkan hari ini',
+  H:'Hadir',I:'Izin',S:'Sakit',A:'Alfa',N:'Belum diisi',
+  autosave:'Tersimpan otomatis',
+  topic:'Materi yang dipelajari',topicPh:'Contoh: Pecahan dan desimal',
+  logHint:'Tanggal, materi, dan rekap kehadiran tiap pertemuan.',
+  open:'Buka',noTopic:'Materi belum diisi',noLog:'Belum ada pertemuan tercatat.',
+  manage:'Kelola kelas',newClass:'Kelas baru',addClass:'Tambah kelas',delClass:'Hapus kelas',
+  confirmClass:'Hapus kelas ini dan semua datanya?',classNamePh:'Contoh: 7B atau 8A',
+  assign:'Tugas',quiz:'UH',mid:'UTS',fin:'UAS',weight:'bobot',avg:'Nilai akhir',
+  kkm:'KKM',passed:'Tuntas',below:'Belum tuntas',
+  name:'Nama murid',nis:'NIS',add:'Tambah murid',remove:'Hapus',confirmDel:'Hapus?',
+  noStudents:'Belum ada murid. Tambahkan di menu Murid.',
+  className:'Nama kelas',
+  example:'Ini data contoh. Hapus lalu isi dengan murid Anda.',clearExample:'Hapus data contoh',
+  pct:'Kehadiran',days:'pertemuan tercatat',meet:'Pertemuan',
+  recapHint:'Dihitung dari semua tanggal yang sudah diisi.',
+  addTitle:'Murid baru',listTitle:'Daftar murid',
+  gradesHint:'Nilai 0 sampai 100. Nilai akhir dihitung dari bobot tiap komponen.',
+  stStudents:'Murid',stLessons:'Pertemuan',stAttend:'Rata-rata kehadiran',stGrade:'Rata-rata nilai',
+  dlBtn:'Unduh Excel',exTitle:'Unduh sebagai Excel',
+  exHint:'Hasilnya berupa file .xlsx yang bisa dibuka di Excel, Google Sheets, atau LibreOffice.',
+  exIncl:'Isi file untuk tiap kelas',
+  exS1:'Absensi: tabel murid dan tanggal, lengkap dengan materi tiap pertemuan',
+  exS2:'Jurnal: tanggal, materi, dan jumlah hadir, izin, sakit, alfa',
+  exS3:'Nilai: tugas, UH, UTS, UAS, nilai akhir, dan ketuntasan',
+  exS4:'Rekap: kehadiran dan nilai akhir tiap murid',
+  exClass:'Unduh Excel kelas ini',exAll:'Unduh Excel semua kelas',exCopy:'Salin rekap untuk Sheets',
+  dlNA:'Unduhan tidak tersedia di tampilan ini. Gunakan Salin rekap, lalu tempel ke Excel atau Google Sheets.',
+  dlSaved:'File Excel disimpan.',dlCancel:'Unduhan dibatalkan.',dlFail:'File belum bisa dibuat. Muat ulang halaman lalu coba lagi.',dlBusy:'Konfirmasi unduhan masih terbuka. Selesaikan dulu, lalu coba lagi.',
+  copied:'Rekap disalin. Tempel di Excel atau Google Sheets.',copyFail:'Rekap belum bisa disalin dari tampilan ini.',
+  impTitle:'Impor daftar murid',
+  impHint:'Pilih file Excel (.xlsx atau .xls) atau CSV yang punya kolom Nama dan NIS. NIS boleh kosong.',
+  impFile:'File Excel atau CSV',impTemplate:'Unduh templat',
+  impPaste:'Atau tempel daftar dari Excel',
+  impPastePh:'Satu murid per baris. Contoh:\n24001\tAditya Pratama\n24002\tBunga Lestari',
+  impRead:'Baca daftar',impReady:'murid siap ditambahkan',
+  impSkipped:'dilewati karena sudah ada atau dobel.',
+  impExample:'Data contoh akan dihapus dan diganti dengan daftar ini.',
+  impMore:'lainnya',impConfirm:'Tambahkan ke kelas ini',impCancel:'Batal',impDone:'murid ditambahkan.',
+  impNone:'Tidak ada nama murid yang terbaca. Pastikan ada kolom Nama (dan NIS bila ada).',
+  impBad:'File tidak bisa dibaca. Gunakan file .xlsx, .xls, atau .csv.',
+  impNoLib:'Pustaka Excel belum termuat. Muat ulang halaman lalu coba lagi.'
+ },
+ en:{
+  app:'Class Book',tagline:'Attendance and grades',
+  loginTitle:'Sign in',registerTitle:'Create a teacher account',
+  username:'Username',password:'Password',login:'Sign in',register:'Sign up',
+  toRegister:'No account yet? Sign up',toLogin:'Already have an account? Sign in',
+  demo:'Demo account',demoNote:'Data is stored in this browser only.',
+  errCred:'Wrong username or password.',errEmpty:'Enter a username and password.',
+  errExists:'That username is taken.',errShort:'Password needs at least 4 characters.',
+  heroTitle:'Attendance and grades for your class, kept in one book.',
+  heroText:'Take attendance for every lesson, note the topic you taught, enter grades, then download everything as an Excel file.',
+  sheetCap:'Sample attendance page',sampleTopic:'Topic: Equivalent fractions',
+  f1t:'Attendance for every lesson',f1x:'Mark present, excused, sick, or absent with one tap. Each lesson has its own date and topic.',
+  f2t:'Grades and summary',f2x:'Enter homework, quiz, midterm, and final scores. The final grade and pass status are worked out for you.',
+  f3t:'Many classes, one account',f3x:'Switch between classes from the side menu, then download the results as an Excel file.',
+  footer:'Class Book. Data is stored in this browser.',
+  logout:'Sign out',class:'Class',
+  tAbs:'Attendance',tLog:'Log',tGrades:'Grades',tRecap:'Summary',tStudents:'Students',tExport:'Export',
+  date:'Date',allPresent:'Mark all present',clearDay:'Clear this day',
+  H:'Present',I:'Excused',S:'Sick',A:'Absent',N:'Not marked',
+  autosave:'Saved automatically',
+  topic:'Topic covered',topicPh:'Example: Fractions and decimals',
+  logHint:'Date, topic, and attendance summary for each lesson.',
+  open:'Open',noTopic:'No topic yet',noLog:'No lessons recorded yet.',
+  manage:'Manage classes',newClass:'New class',addClass:'Add class',delClass:'Delete class',
+  confirmClass:'Delete this class and all its data?',classNamePh:'Example: 7B or 8A',
+  assign:'Homework',quiz:'Quiz',mid:'Midterm',fin:'Final',weight:'weight',avg:'Final grade',
+  kkm:'Pass mark',passed:'Passed',below:'Below pass mark',
+  name:'Student name',nis:'Student ID',add:'Add student',remove:'Remove',confirmDel:'Remove?',
+  noStudents:'No students yet. Add them in the Students menu.',
+  className:'Class name',
+  example:'This is example data. Remove it, then add your own students.',clearExample:'Remove example data',
+  pct:'Attendance',days:'lessons recorded',meet:'Lessons',
+  recapHint:'Calculated from every date that has been filled in.',
+  addTitle:'New student',listTitle:'Student list',
+  gradesHint:'Scores run from 0 to 100. The final grade uses the weight of each component.',
+  stStudents:'Students',stLessons:'Lessons',stAttend:'Average attendance',stGrade:'Average grade',
+  dlBtn:'Download Excel',exTitle:'Download as Excel',
+  exHint:'You get an .xlsx file that opens in Excel, Google Sheets, or LibreOffice.',
+  exIncl:'What each class contains',
+  exS1:'Attendance: students by date, with the topic of each lesson',
+  exS2:'Log: date, topic, and counts of present, excused, sick, absent',
+  exS3:'Grades: homework, quiz, midterm, final, final grade, and pass status',
+  exS4:'Summary: attendance and final grade for each student',
+  exClass:'Download Excel for this class',exAll:'Download Excel for all classes',exCopy:'Copy summary for Sheets',
+  dlNA:'Downloads are not available in this view. Use Copy summary, then paste into Excel or Google Sheets.',
+  dlSaved:'Excel file saved.',dlCancel:'Download cancelled.',dlFail:'The file could not be created. Reload the page and try again.',dlBusy:'A download prompt is still open. Finish it, then try again.',
+  copied:'Summary copied. Paste it into Excel or Google Sheets.',copyFail:'The summary could not be copied from this view.',
+  impTitle:'Import student list',
+  impHint:'Choose an Excel file (.xlsx or .xls) or a CSV with a Name column and an optional Student ID column.',
+  impFile:'Excel or CSV file',impTemplate:'Download template',
+  impPaste:'Or paste a list from Excel',
+  impPastePh:'One student per line. Example:\n24001\tAditya Pratama\n24002\tBunga Lestari',
+  impRead:'Read list',impReady:'students ready to add',
+  impSkipped:'skipped because they already exist or are repeated.',
+  impExample:'The example data will be removed and replaced with this list.',
+  impMore:'more',impConfirm:'Add to this class',impCancel:'Cancel',impDone:'students added.',
+  impNone:'No student names were found. Make sure there is a Name column (and Student ID if you have one).',
+  impBad:'The file could not be read. Use an .xlsx, .xls, or .csv file.',
+  impNoLib:'The Excel library has not loaded. Reload the page and try again.'
+ }
+};
+
+/* ---------- storage ---------- */
+var mem={};
+var store={
+  get:function(k){try{var v=localStorage.getItem(k);return v===null?(mem[k]===undefined?null:mem[k]):v}catch(e){return mem[k]===undefined?null:mem[k]}},
+  set:function(k,v){mem[k]=v;try{localStorage.setItem(k,v)}catch(e){}}
+};
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function hash(s){
+  try{
+    return crypto.subtle.digest('SHA-256',new TextEncoder().encode('bk:'+s)).then(function(b){
+      return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0')}).join('');
+    });
+  }catch(e){return Promise.resolve('p:'+s)}
+}
+function pj(k,d){try{var r=store.get(k);return r?JSON.parse(r):d}catch(e){return d}}
+
+/* ---------- state ---------- */
+var W={tugas:20,uh:20,uts:30,uas:30};
+var FIELDS=['tugas','uh','uts','uas'];
+var FKEY={tugas:'assign',uh:'quiz',uts:'mid',uas:'fin'};
+var ST=['H','I','S','A'];
+var lang=store.get('bk:lang')==='en'?'en':'id';
+var session=store.get('bk:session');
+var imp=null,impErr='',data=null,acct=null,confirmClass=false,tab='abs',authMode='login',authErr='',confirmDel=null,dl=null,toastTimer=null;
+function today(){return new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10)}
+function shift(days){var d=new Date(today()+'T00:00:00');d.setDate(d.getDate()-days);return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10)}
+var date=today();
+function t(k){return T[lang][k]}
+
+function seed(){
+  var names=['Aditya Pratama','Bunga Lestari','Citra Maharani','Dimas Nugroho','Eka Wulandari','Fajar Ramadhan'];
+  var d={cls:'7B',kkm:75,example:true,students:[],attendance:{},grades:{},topics:{}};
+  names.forEach(function(n,i){d.students.push({id:'s'+(i+1),name:n,nis:String(24001+i)})});
+  var pat=[
+    ['H','H','H','H','H','H'],
+    ['H','S','H','H','I','H'],
+    ['H','H','A','H','H','H']
+  ];
+  [2,1,0].forEach(function(back,j){
+    var dt=shift(back+1),rec={};
+    d.students.forEach(function(s,i){rec[s.id]=pat[j][i]});
+    d.attendance[dt]=rec;
+    d.topics[dt]=['Bilangan bulat','Pecahan','Desimal'][j];
+  });
+  var g=[[80,85,78,82],[70,72,68,74],[90,88,92,95],[65,70,60,''],[78,80,'',''],[85,'','','']];
+  d.students.forEach(function(s,i){d.grades[s.id]={tugas:g[i][0],uh:g[i][1],uts:g[i][2],uas:g[i][3]}});
+  return d;
+}
+function dkey(){return 'bk:data:'+session}
+function save(){store.set(dkey(),JSON.stringify(acct))}
+function pick(){
+  data=acct.classes.filter(function(c){return c.id===acct.cur})[0]||acct.classes[0];
+  acct.cur=data.id;
+  if(!data.topics)data.topics={};imp=null;impErr='';
+}
+function load(){
+  var raw=pj(dkey(),null);
+  if(raw&&raw.classes&&raw.classes.length)acct=raw;
+  else if(raw&&raw.students){raw.id='c1';acct={cur:'c1',classes:[raw]}}
+  else{var s=seed();s.id='c1';acct={cur:'c1',classes:[s]}}
+  pick();save();
+}
+function avg(g){
+  var s=0,w=0;
+  FIELDS.forEach(function(k){var v=g&&g[k];if(v!==''&&v!==null&&v!==undefined&&!isNaN(v)){s+=Number(v)*W[k];w+=W[k]}});
+  return w?s/w:null;
+}
+function fmtDate(d){
+  try{return new Date(d+'T00:00:00').toLocaleDateString(lang==='id'?'id-ID':'en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}catch(e){return d}
+}
+function finalHtml(a){
+  if(a===null)return '<span class="pill none">–</span>';
+  var ok=a>=Number(data.kkm);
+  return '<span class="mark">'+a.toFixed(1)+'</span><span class="pill '+(ok?'ok':'bad')+'">'+(ok?t('passed'):t('below'))+'</span>';
+}
+function recapOf(c){
+  var ds=Object.keys(c.attendance).sort();
+  return c.students.map(function(s){
+    var k={H:0,I:0,S:0,A:0},n=0;
+    ds.forEach(function(d){var v=(c.attendance[d]||{})[s.id];if(v&&k[v]!==undefined){k[v]++;n++}});
+    return {s:s,k:k,n:n,pct:n?Math.round(k.H/n*100):null,avg:avg((c.grades||{})[s.id])};
+  });
+}
+
+/* ---------- icons ---------- */
+var PATHS={
+  abs:'<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M8 3v4M16 3v4M3.5 10h17M9 15l2 2 4-4"/>',
+  log:'<path d="M12 6c-1.5-1.3-3.7-2-6.5-2H3v14h2.5c2.8 0 5 .7 6.5 2 1.5-1.3 3.7-2 6.5-2H21V4h-2.5c-2.8 0-5 .7-6.5 2zM12 6v14"/>',
+  grades:'<path d="M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4"/>',
+  recap:'<path d="M5 20V10M12 20V4M19 20v-7"/>',
+  stu:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c.5-3.3 3-5 6-5s5.5 1.7 6 5M16 5.2a3.2 3.2 0 010 5.6M18 15c1.8.6 3 2.2 3.3 5"/>',
+  export:'<path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M4 19h16"/>',
+  book:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3v18M12.5 8h3.5M12.5 12h3.5"/>'
+};
+function ic(n){return '<svg class="i" viewBox="0 0 24 24" aria-hidden="true">'+PATHS[n]+'</svg>'}
+function logo(){return '<div class="logo" aria-hidden="true">'+ic('book')+'</div>'}
+
+/* ---------- spreadsheet export ---------- */
+function dateList(c){
+  var all={};
+  Object.keys(c.attendance).forEach(function(d){all[d]=1});
+  Object.keys(c.topics||{}).forEach(function(d){all[d]=1});
+  return Object.keys(all).sort();
+}
+function r1(x){return x===null?'':Math.round(x*10)/10}
+function absAOA(c){
+  var ds=dateList(c);
+  var head=[t('nis'),t('name')].concat(ds,[t('H'),t('I'),t('S'),t('A'),t('pct')+' %']);
+  var tops=['',t('topic')].concat(ds.map(function(d){return (c.topics&&c.topics[d])||''}),['','','','','']);
+  var rows=c.students.map(function(s){
+    var k={H:0,I:0,S:0,A:0},n=0;
+    var cells=ds.map(function(d){var v=(c.attendance[d]||{})[s.id]||'';if(v&&k[v]!==undefined){k[v]++;n++;return t(v)}return ''});
+    return [s.nis||'',s.name].concat(cells,[k.H,k.I,k.S,k.A,n?Math.round(k.H/n*100):'']);
+  });
+  return [head,tops].concat(rows);
+}
+function logAOA(c){
+  var rows=dateList(c).reverse().map(function(d){
+    var rec=c.attendance[d]||{},k={H:0,I:0,S:0,A:0};
+    Object.keys(rec).forEach(function(id){if(k[rec[id]]!==undefined)k[rec[id]]++});
+    var marked=k.H+k.I+k.S+k.A;
+    return [d,(c.topics&&c.topics[d])||'',k.H,k.I,k.S,k.A,Math.max(0,c.students.length-marked)];
+  });
+  return [[t('date'),t('topic'),t('H'),t('I'),t('S'),t('A'),t('N')]].concat(rows);
+}
+function gradesAOA(c){
+  var head=[t('nis'),t('name')].concat(FIELDS.map(function(k){return t(FKEY[k])+' ('+W[k]+'%)'}),[t('avg'),'Status']);
+  var rows=c.students.map(function(s){
+    var g=(c.grades||{})[s.id]||{},a=avg(g);
+    return [s.nis||'',s.name].concat(FIELDS.map(function(k){var v=g[k];return (v===''||v===undefined||v===null)?'':Number(v)}),
+      [r1(a),a===null?'':(a>=Number(c.kkm)?t('passed'):t('below'))]);
+  });
+  return [head].concat(rows,[[],[t('kkm'),Number(c.kkm)]]);
+}
+function recapAOA(c){
+  var head=[t('nis'),t('name'),t('H'),t('I'),t('S'),t('A'),t('meet'),t('pct')+' %',t('avg')];
+  var rows=recapOf(c).map(function(r){
+    return [r.s.nis||'',r.s.name,r.k.H,r.k.I,r.k.S,r.k.A,r.n,r.pct===null?'':r.pct,r1(r.avg)];
+  });
+  return [head].concat(rows);
+}
+function addSheet(wb,used,name,aoa){
+  var ws=XLSX.utils.aoa_to_sheet(aoa),cols=[];
+  aoa.forEach(function(r){r.forEach(function(v,i){
+    var l=String(v===undefined||v===null?'':v).length;
+    cols[i]=Math.max(cols[i]||6,Math.min(40,l+2));
+  })});
+  ws['!cols']=cols.map(function(w){return {wch:w}});
+  var base=String(name).replace(/[\\\/\?\*\[\]:]/g,'-').slice(0,31)||'Sheet',n=base,i=2;
+  while(used[n.toLowerCase()]){var sfx=' '+(i++);n=base.slice(0,31-sfx.length)+sfx}
+  used[n.toLowerCase()]=1;
+  XLSX.utils.book_append_sheet(wb,ws,n);
+}
+function buildWorkbook(list){
+  var wb=XLSX.utils.book_new(),used={},multi=list.length>1;
+  list.forEach(function(c){
+    var p=multi?String(c.cls).slice(0,12)+' ':'';
+    addSheet(wb,used,p+t('tAbs'),absAOA(c));
+    addSheet(wb,used,p+t('tLog'),logAOA(c));
+    addSheet(wb,used,p+t('tGrades'),gradesAOA(c));
+    addSheet(wb,used,p+t('tRecap'),recapAOA(c));
+  });
+  return wb;
+}
+function safeName(s){return String(s).replace(/[^A-Za-z0-9_-]+/g,'-').replace(/^-+|-+$/g,'')||'kelas'}
+function toast(msg){
+  var el=document.getElementById('toast');if(!el)return;
+  el.textContent=msg;el.hidden=false;
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(function(){el.hidden=true},4200);
+}
+function saveBuf(name,buf){
+  dl.save({filename:name,data:buf}).then(function(){toast(t('dlSaved'))}).catch(function(err){
+    var c=err&&err.code;
+    toast(c==='declined'?t('dlCancel'):c==='rate_limited'?t('dlBusy'):t('dlFail'));
+  });
+}
+function downloadTemplate(){
+  if(!dl){toast(t('dlNA'));return}
+  if(typeof XLSX==='undefined'){toast(t('dlFail'));return}
+  var buf;
+  try{
+    var wb=XLSX.utils.book_new(),ws=XLSX.utils.aoa_to_sheet([[t('nis'),t('name')]]);
+    ws['!cols']=[{wch:16},{wch:34}];
+    XLSX.utils.book_append_sheet(wb,ws,t('tStudents'));
+    buf=XLSX.write(wb,{bookType:'xlsx',type:'array'});
+  }catch(e){toast(t('dlFail'));return}
+  saveBuf('Templat-Daftar-Murid.xlsx',buf);
+}
+
+/* ---------- student import ---------- */
+var NAME_RE=/^(nama( lengkap| murid| siswa| peserta didik)?|name|full name|student name|murid|siswa|student)$/i;
+var NIS_RE=/^(nis|nisn|nipd|id|no\.? ?induk|nomor induk|student id|student number)$/i;
+function cs(v){return String(v===undefined||v===null?'':v).replace(/\s+/g,' ').trim()}
+function hasLetters(s){return /[A-Za-zÀ-ɏ]/.test(s)}
+function isId(s){return /^[0-9][0-9.\-\/]*$/.test(s)}
+function looksCode(s){return /\d/.test(s)&&/^[A-Za-z0-9][A-Za-z0-9.\-\/]*$/.test(s)}
+function rowsToStudents(aoa){
+  var rows=aoa.map(function(r){return r.map(cs)}).filter(function(r){return r.some(function(c){return c!==''})});
+  var out=[],i,j;
+  if(!rows.length)return out;
+  var hi=-1,nameCol=-1,nisCol=-1;
+  for(i=0;i<Math.min(rows.length,10)&&hi<0;i++){
+    var nc=-1,ni=-1;
+    for(j=0;j<rows[i].length;j++){
+      if(nc<0&&NAME_RE.test(rows[i][j]))nc=j;
+      else if(ni<0&&NIS_RE.test(rows[i][j]))ni=j;
+    }
+    if(nc>=0){hi=i;nameCol=nc;nisCol=ni}
+  }
+  if(hi>=0){
+    rows.slice(hi+1).forEach(function(r){out.push({name:r[nameCol]||'',nis:nisCol>=0?(r[nisCol]||''):''})});
+  }else{
+    var seq=rows.length>1&&rows.every(function(r,k){return r.length>=2&&r[0]===String(k+1)});
+    rows.forEach(function(r){
+      if(seq)r=r.slice(1);
+      var cells=r.filter(function(c){return c!==''});
+      if(!cells.length)return;
+      if(cells.length===1){out.push({name:cells[0].replace(/^\d+[.)]\s+/,''),nis:''});return}
+      var a=cells[0],b=cells[1];
+      if(isId(a)&&hasLetters(b))out.push({name:b,nis:a});
+      else if(hasLetters(a)&&(isId(b)||looksCode(b)))out.push({name:a,nis:b});
+      else out.push({name:a,nis:''});
+    });
+  }
+  var skip={};skip[T.id.topic.toLowerCase()]=1;skip[T.en.topic.toLowerCase()]=1;
+  return out.filter(function(r){return r.name&&hasLetters(r.name)&&!skip[r.name.toLowerCase()]});
+}
+function parseText(text){
+  var aoa=String(text||'').split(/\r?\n/).map(function(l){
+    if(l.indexOf('\t')>=0)return l.split('\t');
+    if(l.indexOf(';')>=0)return l.split(';');
+    return [l];
+  });
+  return rowsToStudents(aoa);
+}
+function finishParse(list){
+  var seenN={},seenI={},dupes=0,rows=[];
+  if(!data.example)data.students.forEach(function(s){seenN[s.name.toLowerCase()]=1;if(s.nis)seenI[s.nis]=1});
+  list.forEach(function(r){
+    var kn=r.name.toLowerCase();
+    if(seenN[kn]||(r.nis&&seenI[r.nis])){dupes++;return}
+    seenN[kn]=1;if(r.nis)seenI[r.nis]=1;rows.push(r);
+  });
+  if(rows.length>500)rows=rows.slice(0,500);
+  if(!rows.length){imp=null;impErr=dupes?(dupes+' '+t('impSkipped')):t('impNone')}
+  else{imp={rows:rows,dupes:dupes};impErr=''}
+  render();
+}
+function readFile(f){
+  if(typeof XLSX==='undefined'){impErr=t('impNoLib');render();return}
+  var fr=new FileReader();
+  fr.onload=function(){
+    try{
+      var wb=XLSX.read(fr.result,{type:'array'}),aoa=[],i;
+      for(i=0;i<wb.SheetNames.length;i++){
+        var a=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[i]],{header:1,raw:false,defval:''});
+        if(a.some(function(r){return r.some(function(c){return String(c).trim()!==''})})){aoa=a;break}
+      }
+      finishParse(rowsToStudents(aoa));
+    }catch(e){imp=null;impErr=t('impBad');render()}
+  };
+  fr.onerror=function(){imp=null;impErr=t('impBad');render()};
+  fr.readAsArrayBuffer(f);
+}
+function applyImport(){
+  if(!imp)return;
+  if(data.example){data.students=[];data.attendance={};data.grades={};data.topics={};data.example=false}
+  var base=Date.now().toString(36),n=imp.rows.length;
+  imp.rows.forEach(function(r,i){data.students.push({id:'s'+base+'-'+i,name:r.name,nis:r.nis})});
+  imp=null;impErr='';save();render();
+  toast(n+' '+t('impDone'));
+}
+
+function doExport(scope){
+  if(!dl){toast(t('dlNA'));return}
+  if(typeof XLSX==='undefined'){toast(t('dlFail'));return}
+  var list=scope==='all'?acct.classes:[data],buf;
+  try{buf=XLSX.write(buildWorkbook(list),{bookType:'xlsx',type:'array'})}catch(e){toast(t('dlFail'));return}
+  var name='Buku-Kelas-'+(scope==='all'?'semua':safeName(data.cls))+'-'+today()+'.xlsx';
+  saveBuf(name,buf);
+}
+function copyRecap(){
+  var text=recapAOA(data).map(function(r){return r.join('\t')}).join('\n');
+  try{
+    navigator.clipboard.writeText(text).then(function(){toast(t('copied'))},function(){toast(t('copyFail'))});
+  }catch(e){toast(t('copyFail'))}
+}
+
+/* ---------- views: landing ---------- */
+function langSwitch(){
+  return '<div class="lang" role="group" aria-label="Language">'+
+    '<button data-act="lang" data-v="id" aria-pressed="'+(lang==='id')+'">ID</button>'+
+    '<button data-act="lang" data-v="en" aria-pressed="'+(lang==='en')+'">EN</button></div>';
+}
+function viewAuth(){
+  var reg=authMode==='register';
+  var sample=[['Aditya','H'],['Bunga','S'],['Citra','H'],['Dimas','A']];
+  return '<div class="container">'+
+  '<header class="topnav"><div class="brand">'+logo()+'<div><b>'+t('app')+'</b><span>'+t('tagline')+'</span></div></div>'+langSwitch()+'</header>'+
+  '<section class="hero">'+
+    '<div class="copy"><h1>'+t('heroTitle')+'</h1><p>'+t('heroText')+'</p></div>'+
+    '<div class="logincard">'+
+      '<h2>'+(reg?t('registerTitle'):t('loginTitle'))+'</h2>'+
+      '<form data-form="auth" novalidate>'+
+        '<div class="field"><label for="u">'+t('username')+'</label><input type="text" id="u" autocomplete="username" autocapitalize="none"></div>'+
+        '<div class="field"><label for="p">'+t('password')+'</label><input type="password" id="p" autocomplete="'+(reg?'new-password':'current-password')+'"></div>'+
+        (authErr?'<p class="err" role="alert">'+esc(authErr)+'</p>':'')+
+        '<button class="btn primary" type="submit">'+(reg?t('register'):t('login'))+'</button>'+
+      '</form>'+
+      '<button class="btn" data-act="authmode" type="button">'+(reg?t('toLogin'):t('toRegister'))+'</button>'+
+      '<div class="demo"><b>'+t('demo')+':</b> <code>guru</code> / <code>guru123</code><br><span class="muted">'+t('demoNote')+'</span></div>'+
+    '</div>'+
+    '<figure class="sheetwrap"><div class="sheet" aria-hidden="true">'+
+      '<div class="l d">'+esc(fmtDate(today()))+'</div>'+
+      '<div class="l t">'+t('sampleTopic')+'</div>'+
+      sample.map(function(r){var k=r[1];return '<div class="l"><b>'+r[0]+'</b><span class="chip '+k.toLowerCase()+'">'+t(k)+'</span></div>'}).join('')+
+    '</div><figcaption>'+t('sheetCap')+'</figcaption></figure>'+
+  '</section>'+
+  '<section class="features">'+
+    '<div class="feat">'+ic('abs')+'<h3>'+t('f1t')+'</h3><p>'+t('f1x')+'</p></div>'+
+    '<div class="feat">'+ic('grades')+'<h3>'+t('f2t')+'</h3><p>'+t('f2x')+'</p></div>'+
+    '<div class="feat">'+ic('export')+'<h3>'+t('f3t')+'</h3><p>'+t('f3x')+'</p></div>'+
+  '</section>'+
+  '<footer class="sitefoot">'+t('footer')+'</footer></div>';
+}
+
+/* ---------- views: app ---------- */
+function exampleNote(){
+  if(!data.example)return '';
+  return '<div class="note"><span>'+t('example')+'</span><button class="btn sm" data-act="clearexample">'+t('clearExample')+'</button></div>';
+}
+function viewAbs(){
+  var rec=data.attendance[date]||{};
+  var c={H:0,I:0,S:0,A:0,N:0};
+  data.students.forEach(function(s){var v=rec[s.id];if(v)c[v]++;else c.N++});
+  var rows=data.students.map(function(s){
+    var cur=rec[s.id]||'';
+    return '<div class="stu"><div class="nm"><b>'+esc(s.name)+'</b><div class="small muted">'+esc(s.nis||'')+'</div></div>'+
+      '<div class="seg" role="group" aria-label="'+esc(s.name)+'">'+
+      ST.map(function(k){return '<button type="button" class="'+k.toLowerCase()+(cur===k?' on':'')+'" aria-pressed="'+(cur===k)+'" data-act="mark" data-id="'+s.id+'" data-v="'+k+'">'+t(k)+'</button>'}).join('')+
+      '</div></div>';
+  }).join('');
+  return '<section class="sec">'+
+    '<div class="penrow"><div class="pen-date">'+esc(fmtDate(date))+'</div>'+
+    '<div class="row ctl"><div class="field"><label for="date">'+t('date')+'</label><input type="date" id="date" value="'+date+'"></div>'+
+    '<button class="btn" data-act="allpresent">'+t('allPresent')+'</button><button class="btn" data-act="clearday">'+t('clearDay')+'</button></div></div>'+
+    '<div class="topic"><label for="topic">'+t('topic')+'</label><input type="text" id="topic" maxlength="120" autocomplete="off" placeholder="'+esc(t('topicPh'))+'" value="'+esc(data.topics[date]||'')+'"></div>'+
+    '<div class="chips"><span class="chip h">'+t('H')+' '+c.H+'</span><span class="chip i">'+t('I')+' '+c.I+'</span><span class="chip s">'+t('S')+' '+c.S+'</span><span class="chip a">'+t('A')+' '+c.A+'</span><span class="chip n">'+t('N')+' '+c.N+'</span></div>'+
+    (rows?'<div class="list">'+rows+'</div>':'<div class="empty">'+t('noStudents')+'</div>')+
+    '<p class="saved">'+t('autosave')+'</p></section>';
+}
+function viewLog(){
+  var items=dateList(data).reverse().map(function(d){
+    var rec=data.attendance[d]||{},c={H:0,I:0,S:0,A:0};
+    Object.keys(rec).forEach(function(id){if(c[rec[id]]!==undefined)c[rec[id]]++});
+    var tp=data.topics[d];
+    return '<div class="logitem"><div class="nm"><b>'+esc(fmtDate(d))+'</b>'+
+      '<div class="'+(tp?'hand':'muted small')+'">'+(tp?esc(tp):t('noTopic'))+'</div></div>'+
+      '<div class="chips"><span class="chip h">'+t('H')+' '+c.H+'</span><span class="chip i">'+t('I')+' '+c.I+'</span><span class="chip s">'+t('S')+' '+c.S+'</span><span class="chip a">'+t('A')+' '+c.A+'</span></div>'+
+      '<button class="btn sm" data-act="open" data-v="'+d+'">'+t('open')+'</button></div>';
+  }).join('');
+  return '<section class="sec"><p class="muted">'+t('logHint')+'</p>'+
+    (items?'<div class="list">'+items+'</div>':'<div class="empty">'+t('noLog')+'</div>')+'</section>';
+}
+function viewGrades(){
+  var head='<tr><th>'+t('name')+'</th>'+FIELDS.map(function(k){return '<th class="num">'+t(FKEY[k])+'<small>'+t('weight')+' '+W[k]+'%</small></th>'}).join('')+'<th>'+t('avg')+'</th></tr>';
+  var body=data.students.map(function(s){
+    var g=data.grades[s.id]||{};
+    return '<tr><td><b>'+esc(s.name)+'</b></td>'+
+      FIELDS.map(function(k){
+        var v=g[k]===undefined?'':g[k];
+        return '<td class="num"><input type="number" inputmode="decimal" min="0" max="100" step="0.5" id="g-'+s.id+'-'+k+'" data-g="'+s.id+'" data-k="'+k+'" value="'+esc(v)+'" aria-label="'+esc(s.name)+' '+t(FKEY[k])+'"></td>';
+      }).join('')+
+      '<td id="f-'+s.id+'">'+finalHtml(avg(g))+'</td></tr>';
+  }).join('');
+  return '<section class="sec">'+
+    '<div class="row"><p class="muted" style="flex:1 1 260px">'+t('gradesHint')+'</p>'+
+    '<div class="field" style="flex:0 0 110px"><label for="kkm">'+t('kkm')+'</label><input type="number" id="kkm" min="0" max="100" value="'+esc(data.kkm)+'"></div></div>'+
+    (data.students.length?'<div class="scroll"><table><thead>'+head+'</thead><tbody>'+body+'</tbody></table></div>':'<div class="empty">'+t('noStudents')+'</div>')+
+    '<p class="saved">'+t('autosave')+'</p></section>';
+}
+function viewRecap(){
+  var rr=recapOf(data);
+  var pcts=rr.filter(function(r){return r.pct!==null}).map(function(r){return r.pct});
+  var avgs=rr.filter(function(r){return r.avg!==null}).map(function(r){return r.avg});
+  var mean=function(a){return a.length?a.reduce(function(x,y){return x+y},0)/a.length:null};
+  var mp=mean(pcts),mg=mean(avgs);
+  var lessons=Object.keys(data.attendance).length;
+  var rows=rr.map(function(r){
+    var cls=r.pct===null?'':(r.pct>=90?'':(r.pct>=75?'warn':'bad'));
+    return '<tr><td><b>'+esc(r.s.name)+'</b></td><td class="num">'+r.k.H+'</td><td class="num">'+r.k.I+'</td><td class="num">'+r.k.S+'</td><td class="num">'+r.k.A+'</td>'+
+      '<td>'+(r.pct===null?'<span class="pill none">–</span>':'<div class="pc"><div class="bar"><i class="'+cls+'" style="width:'+r.pct+'%"></i></div><b>'+r.pct+'%</b></div>')+'</td>'+
+      '<td>'+(r.avg===null?'<span class="pill none">–</span>':'<span class="mark">'+r.avg.toFixed(1)+'</span>')+'</td></tr>';
+  }).join('');
+  return '<section class="sec">'+
+    '<dl class="stats">'+
+      '<div><dt>'+t('stStudents')+'</dt><dd>'+data.students.length+'</dd></div>'+
+      '<div><dt>'+t('stLessons')+'</dt><dd>'+lessons+'</dd></div>'+
+      '<div><dt>'+t('stAttend')+'</dt><dd>'+(mp===null?'–':Math.round(mp)+'%')+'</dd></div>'+
+      '<div><dt>'+t('stGrade')+'</dt><dd>'+(mg===null?'–':mg.toFixed(1))+'</dd></div>'+
+    '</dl>'+
+    '<p class="muted small">'+t('recapHint')+'</p>'+
+    (data.students.length?'<div class="scroll"><table><thead><tr><th>'+t('name')+'</th><th class="num">'+t('H')+'</th><th class="num">'+t('I')+'</th><th class="num">'+t('S')+'</th><th class="num">'+t('A')+'</th><th>'+t('pct')+'</th><th>'+t('avg')+'</th></tr></thead><tbody>'+rows+'</tbody></table></div>':'<div class="empty">'+t('noStudents')+'</div>')+
+    '</section>';
+}
+function importBlock(){
+  var pv='';
+  if(imp){
+    var n=imp.rows.length,show=imp.rows.slice(0,8);
+    pv='<div class="preview"><h3>'+n+' '+t('impReady')+'</h3>'+
+      (imp.dupes?'<p class="muted small">'+imp.dupes+' '+t('impSkipped')+'</p>':'')+
+      (data.example?'<p class="note">'+t('impExample')+'</p>':'')+
+      '<div class="scroll"><table style="min-width:0"><thead><tr><th>'+t('nis')+'</th><th>'+t('name')+'</th></tr></thead><tbody>'+
+      show.map(function(r){return '<tr><td>'+esc(r.nis)+'</td><td>'+esc(r.name)+'</td></tr>'}).join('')+'</tbody></table></div>'+
+      (n>show.length?'<p class="muted small">+ '+(n-show.length)+' '+t('impMore')+'</p>':'')+
+      '<div class="row"><button class="btn primary" data-act="imp-confirm" type="button">'+t('impConfirm')+'</button><button class="btn" data-act="imp-cancel" type="button">'+t('impCancel')+'</button></div></div>';
+  }
+  return '<div class="block"><h2>'+t('impTitle')+'</h2><p class="muted">'+t('impHint')+'</p>'+
+    '<div class="row"><div class="field"><label for="impfile">'+t('impFile')+'</label><input type="file" id="impfile" accept=".xlsx,.xls,.csv,.ods"></div>'+
+    (dl?'<button class="btn" data-act="imp-template" type="button">'+t('impTemplate')+'</button>':'')+'</div>'+
+    '<div class="field"><label for="paste">'+t('impPaste')+'</label><textarea id="paste" rows="5" placeholder="'+esc(t('impPastePh'))+'"></textarea></div>'+
+    '<div class="row"><button class="btn" data-act="imp-paste" type="button">'+t('impRead')+'</button></div>'+
+    (impErr?'<p class="err" role="alert">'+esc(impErr)+'</p>':'')+pv+'</div>';
+}
+function viewStudents(){
+  var rows=data.students.map(function(s){
+    var conf=confirmDel===s.id;
+    return '<div class="stu"><div class="nm"><b>'+esc(s.name)+'</b><div class="small muted">'+esc(s.nis||'')+'</div></div>'+
+      '<button class="btn sm'+(conf?' danger':'')+'" data-act="del" data-id="'+s.id+'">'+(conf?t('confirmDel'):t('remove'))+'</button></div>';
+  }).join('');
+  var manage='<div class="block"><h2>'+t('manage')+'</h2>'+
+    '<div class="row"><div class="field"><label for="cls">'+t('className')+'</label><input type="text" id="cls" value="'+esc(data.cls)+'" maxlength="30"></div>'+
+    (acct.classes.length>1?'<button class="btn'+(confirmClass?' danger':'')+'" data-act="delclass" type="button">'+(confirmClass?t('confirmClass'):t('delClass'))+'</button>':'')+'</div>'+
+    '<form data-form="addcls" class="row" novalidate><div class="field"><label for="newcls">'+t('newClass')+'</label><input type="text" id="newcls" maxlength="30" autocomplete="off" placeholder="'+esc(t('classNamePh'))+'"></div>'+
+    '<button class="btn primary" type="submit">'+t('addClass')+'</button></form></div>';
+    var addOne='<div class="block"><h2>'+t('addTitle')+'</h2>'+
+    '<form data-form="add" class="row" novalidate>'+
+      '<div class="field" style="flex:2 1 220px"><label for="sn">'+t('name')+'</label><input type="text" id="sn" autocomplete="off"></div>'+
+      '<div class="field"><label for="sid">'+t('nis')+'</label><input type="text" id="sid" autocomplete="off"></div>'+
+      '<button class="btn primary" type="submit">'+t('add')+'</button></form></div>';
+    return '<section class="sec">'+importBlock()+addOne+'<div><h2 style="margin-bottom:6px">'+t('listTitle')+' ('+data.students.length+')</h2>'+
+    (rows?'<div class="list">'+rows+'</div>':'<div class="empty">'+t('noStudents')+'</div>')+'</div>'+manage+'</section>';
+}
+function viewExport(){
+  return '<section class="sec">'+
+    '<div><h2>'+t('exTitle')+'</h2><p class="muted" style="margin-top:6px;max-width:60ch">'+t('exHint')+'</p></div>'+
+    '<div><h3 style="margin-bottom:8px">'+t('exIncl')+'</h3><ul class="incl"><li>'+t('exS1')+'</li><li>'+t('exS2')+'</li><li>'+t('exS3')+'</li><li>'+t('exS4')+'</li></ul></div>'+
+    '<div class="row" style="align-items:center">'+
+      (dl?'<button class="btn primary" data-act="exp-class">'+ic('export')+t('exClass')+'</button>':'')+
+      (dl&&acct.classes.length>1?'<button class="btn" data-act="exp-all">'+ic('export')+t('exAll')+'</button>':'')+
+      '<button class="btn" data-act="copy">'+t('exCopy')+'</button>'+
+    '</div>'+
+    (dl?'':'<p class="note">'+t('dlNA')+'</p>')+
+    '</section>';
+}
+var NAV=[['abs','tAbs','abs'],['log','tLog','log'],['grades','tGrades','grades'],['recap','tRecap','recap'],['stu','tStudents','stu'],['exp','tExport','export']];
+function sidebar(){
+  return '<aside class="side">'+
+    '<div class="brand">'+logo()+'<div><b>'+t('app')+'</b><span>'+t('tagline')+'</span></div></div>'+
+    '<div class="side-foot"><span class="who">'+esc(session)+'</span>'+langSwitch()+'<button class="btn sm" data-act="logout">'+t('logout')+'</button></div>'+
+    '<div class="pick"><label for="clsSel">'+t('class')+'</label>'+
+      '<select id="clsSel">'+acct.classes.map(function(c){return '<option value="'+esc(c.id)+'"'+(c.id===data.id?' selected':'')+'>'+esc(c.cls)+'</option>'}).join('')+'</select>'+
+      '<button class="btn sm" data-act="newclass">+ '+t('newClass')+'</button></div>'+
+    '<nav class="sidenav" aria-label="Menu">'+NAV.map(function(x){
+      return '<button class="navbtn" data-act="tab" data-v="'+x[0]+'"'+(tab===x[0]?' aria-current="page"':'')+'>'+ic(x[2])+'<span>'+t(x[1])+'</span></button>';
+    }).join('')+'</nav></aside>';
+}
+function viewApp(){
+  var body=tab==='abs'?viewAbs():tab==='log'?viewLog():tab==='grades'?viewGrades():tab==='recap'?viewRecap():tab==='stu'?viewStudents():viewExport();
+  var title=t(NAV.filter(function(x){return x[0]===tab})[0][1]);
+  return '<div class="container shell">'+sidebar()+
+    '<main class="page"><header class="ph"><div><h1>'+title+'</h1><p class="muted">'+t('class')+' '+esc(data.cls)+'</p></div>'+
+    (dl&&tab!=='exp'?'<button class="btn" data-act="exp-class">'+ic('export')+t('dlBtn')+'</button>':'')+'</header>'+
+    exampleNote()+body+'</main></div>';
+}
+var app=document.getElementById('app');
+function render(){
+  document.documentElement.lang=lang;
+  app.innerHTML=(session&&data)?viewApp():viewAuth();
+}
+
+/* ---------- events ---------- */
+app.addEventListener('click',function(e){
+  var el=e.target.closest('[data-act]');if(!el)return;
+  var act=el.dataset.act,id=el.dataset.id,v=el.dataset.v;
+  if(act==='lang'){lang=v;store.set('bk:lang',lang);render()}
+  else if(act==='authmode'){authMode=authMode==='login'?'register':'login';authErr='';render()}
+  else if(act==='logout'){session=null;data=null;acct=null;store.set('bk:session','');confirmDel=null;render()}
+  else if(act==='tab'){tab=v;confirmDel=null;confirmClass=false;imp=null;impErr='';render()}
+  else if(act==='mark'){
+    var rec=data.attendance[date]||(data.attendance[date]={});
+    if(rec[id]===v)delete rec[id];else rec[id]=v;
+    if(!Object.keys(rec).length)delete data.attendance[date];
+    save();render();
+  }
+  else if(act==='allpresent'){
+    var r={};data.students.forEach(function(s){r[s.id]='H'});
+    if(data.students.length)data.attendance[date]=r;
+    save();render();
+  }
+  else if(act==='clearday'){delete data.attendance[date];save();render()}
+  else if(act==='open'){date=v;tab='abs';render()}
+  else if(act==='newclass'){tab='stu';render();var nc=document.getElementById('newcls');if(nc)nc.focus()}
+  else if(act==='delclass'){
+    if(confirmClass){
+      acct.classes=acct.classes.filter(function(c){return c.id!==data.id});
+      acct.cur=acct.classes[0].id;pick();confirmClass=false;confirmDel=null;save();
+    }else confirmClass=true;
+    render();
+  }
+  else if(act==='del'){
+    if(confirmDel===id){
+      data.students=data.students.filter(function(s){return s.id!==id});
+      delete data.grades[id];
+      Object.keys(data.attendance).forEach(function(d){delete data.attendance[d][id];if(!Object.keys(data.attendance[d]).length)delete data.attendance[d]});
+      confirmDel=null;save();
+    }else confirmDel=id;
+    render();
+  }
+  else if(act==='clearexample'){data.students=[];data.attendance={};data.grades={};data.topics={};data.example=false;save();render()}
+  else if(act==='exp-class'){doExport('class')}
+  else if(act==='exp-all'){doExport('all')}
+  else if(act==='copy'){copyRecap()}
+  else if(act==='imp-paste'){var ta=document.getElementById('paste');finishParse(parseText(ta?ta.value:''))}
+  else if(act==='imp-confirm'){applyImport()}
+  else if(act==='imp-cancel'){imp=null;impErr='';render()}
+  else if(act==='imp-template'){downloadTemplate()}
+});
+app.addEventListener('change',function(e){
+  if(e.target.id==='date'&&e.target.value){date=e.target.value;render()}
+  else if(e.target.id==='impfile'){var f=e.target.files&&e.target.files[0];if(f)readFile(f)}
+  else if(e.target.id==='clsSel'){acct.cur=e.target.value;pick();confirmDel=null;confirmClass=false;save();render()}
+});
+app.addEventListener('input',function(e){
+  var el=e.target;
+  if(el.dataset.g){
+    var raw=el.value,val='';
+    if(raw!==''&&!isNaN(raw))val=Math.max(0,Math.min(100,Number(raw)));
+    var g=data.grades[el.dataset.g]||(data.grades[el.dataset.g]={});
+    g[el.dataset.k]=val;save();
+    var cell=document.getElementById('f-'+el.dataset.g);
+    if(cell)cell.innerHTML=finalHtml(avg(g));
+  }else if(el.id==='kkm'){
+    var k=Number(el.value);
+    if(!isNaN(k)){data.kkm=Math.max(0,Math.min(100,k));save();
+      data.students.forEach(function(s){var c=document.getElementById('f-'+s.id);if(c)c.innerHTML=finalHtml(avg(data.grades[s.id]))});}
+  }else if(el.id==='topic'){
+    if(el.value.trim())data.topics[date]=el.value;else delete data.topics[date];
+    save();
+  }else if(el.id==='cls'){
+    data.cls=el.value.trim()||'-';save();
+    var opt=document.querySelector('#clsSel option[value="'+data.id+'"]');
+    if(opt)opt.textContent=data.cls;
+  }
+});
+app.addEventListener('submit',function(e){
+  e.preventDefault();
+  var f=e.target.dataset.form;
+  if(f==='auth'){
+    var u=document.getElementById('u').value.trim().toLowerCase(),p=document.getElementById('p').value;
+    if(!u||!p){authErr=t('errEmpty');render();return}
+    var users=pj('bk:users',{});
+    hash(p).then(function(h){
+      if(authMode==='register'){
+        if(p.length<4){authErr=t('errShort');render();return}
+        if(users[u]){authErr=t('errExists');render();return}
+        users[u]=h;store.set('bk:users',JSON.stringify(users));
+      }else if(users[u]!==h){authErr=t('errCred');render();return}
+      session=u;store.set('bk:session',u);authErr='';tab='abs';date=today();load();render();
+    });
+  }else if(f==='addcls'){
+    var nm=document.getElementById('newcls').value.trim();
+    if(!nm){document.getElementById('newcls').focus();return}
+    var nc={id:'c'+Date.now().toString(36)+Math.floor(Math.random()*100),cls:nm,kkm:75,example:false,students:[],attendance:{},grades:{},topics:{}};
+    acct.classes.push(nc);acct.cur=nc.id;pick();confirmClass=false;confirmDel=null;save();tab='stu';render();
+    document.getElementById('sn').focus();
+  }else if(f==='add'){
+    var n=document.getElementById('sn').value.trim(),s=document.getElementById('sid').value.trim();
+    if(!n){document.getElementById('sn').focus();return}
+    data.students.push({id:'s'+Date.now().toString(36)+Math.floor(Math.random()*100),name:n,nis:s});
+    save();render();
+    document.getElementById('sn').focus();
+  }
+});
+
+/* ---------- start ---------- */
+(function init(){
+  var users=pj('bk:users',{});
+  var go=function(){
+    if(session&&users[session]!==undefined){load()}else{session=null}
+    render();
+  };
+  if(!users.guru){
+    hash('guru123').then(function(h){users.guru=h;store.set('bk:users',JSON.stringify(users));go()});
+  }else go();
+})();
+render();
+
+/* downloads capability: light up the Excel buttons once the viewer grants it */
+try{
+  if(window.claude&&window.claude.use){
+    window.claude.use('downloads').then(function(x){
+      dl=x||null;
+      if(dl&&session&&data)render();
+    }).catch(function(){});
+  }
+}catch(e){}
+})();
+</script>
+
+</body></html>
